@@ -1,0 +1,23 @@
+package com.online.food.Entity;
+
+
+import jakarta.persistence.*;
+
+public class Food {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+    private double price;
+    private String description;
+    private boolean availability;
+    private String category;
+
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
+
+    @OneToMany(mappedBy = "food")
+    private List<OrderItem> orderItems;
+}

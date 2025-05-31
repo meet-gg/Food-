@@ -1,0 +1,2 @@
+package com.online.food.Repository;public interface UserRepository {
+}

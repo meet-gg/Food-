@@ -1,0 +1,32 @@
+package com.online.food.Services;
+
+import com.online.food.DTOs.FoodDTO;
+import com.online.food.Entity.Food;
+import com.online.food.Entity.Restaurant;
+import com.online.food.Exceptions.ResourceNotFoundException;
+import com.online.food.Repository.FoodRepository;
+import com.online.food.Repository.RestaurantRepository;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class FoodService {
+    private final FoodRepository foodRepository;
+    private final RestaurantRepository restaurantRepository;
+    private final ModelMapper modelMapper;
+
+    public ResponseEntity<?> addFood(Long restaurantId, FoodDTO foodDTO) {
+        try {
+            Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new ResourceNotFoundException("Restaurant not found with given Id : " + restaurantId));
+            Food food = modelMapper.map(foodDTO, Food.class);
+            food.setRestaurant(restaurant);
+            foodRepository.save(food);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+}

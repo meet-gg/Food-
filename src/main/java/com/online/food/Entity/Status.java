@@ -1,0 +1,5 @@
+package com.online.food.Entity;
+
+public enum Status {
+    ASS
+}
